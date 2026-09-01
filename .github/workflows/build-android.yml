@@ -19,7 +19,7 @@ jobs:
           node-version: '20'
 
       - name: نصب وابستگی‌ها
-        run: npm run install
+        run: npm install   # ✅ این خط اصلاح شد
 
       - name: افزودن اندروید
         run: npx cap add android
