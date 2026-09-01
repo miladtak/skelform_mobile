@@ -1,0 +1,37 @@
+name: ساخت خودکار نسخه اندروید (APK)
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: دریافت کد
+        uses: actions/checkout@v4
+
+      - name: نصب Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: نصب وابستگی‌ها
+        run: npm run install
+
+      - name: افزودن اندروید
+        run: npx cap add android
+
+      - name: همگام‌سازی
+        run: npx cap sync android
+
+      - name: ساخت APK
+        run: npx cap build android --no-open
+
+      - name: بارگذاری APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: برنامه-اندروید
+          path: android/app/build/outputs/apk/debug/app-debug.apk
