@@ -19,18 +19,24 @@ jobs:
           node-version: '20'
 
       - name: نصب وابستگی‌ها
-        run: npm install   # ✅ این خط اصلاح شد
+        run: npm install
 
-      - name: افزودن اندروید
+      - name: ساخت پوشه www و فایل‌های مورد نیاز
+        run: |
+          mkdir -p www
+          cp index.html SkelForm.js SkelForm_bg.wasm anim_icons.png www/ 2>/dev/null || true
+          echo "پوشه www با موفقیت ساخته شد."
+
+      - name: افزودن پلتفرم اندروید
         run: npx cap add android
 
-      - name: همگام‌سازی
+      - name: همگام‌سازی فایل‌های اندروید
         run: npx cap sync android
 
-      - name: ساخت APK
+      - name: ساخت فایل APK
         run: npx cap build android --no-open
 
-      - name: بارگذاری APK
+      - name: بارگذاری فایل APK
         uses: actions/upload-artifact@v4
         with:
           name: برنامه-اندروید
